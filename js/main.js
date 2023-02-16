@@ -46,27 +46,14 @@ function handleDrop(e) {
     e.preventDefault();
     console.log('dropped something on me');
 
-    // Get the current drop zone
-    const currentDropZone = this;
-
-    // Get the puzzle piece that's currently in the drop zone, if any
-    const currentPiece = currentDropZone.firstChild;
-
-    // If there's already a puzzle piece in the drop zone, swap the pieces
-    if (currentPiece) {
-        // Get the original drop zone of the current piece
-        const originalDropZone = currentPiece.parentElement;
-
-        // Move the dragged piece to the current drop zone
-        currentDropZone.appendChild(draggedPiece);
-
-        // Move the current piece to its original drop zone
-        originalDropZone.appendChild(currentPiece);
-    } else {
-        // Move the dragged piece to the current drop zone
-        currentDropZone.appendChild(draggedPiece);
+    if (this.children.length > 0) {
+      console.log('There is already a puzzle piece here');
+      return;
     }
-}
+
+    // move the dragged piece to the drop zone
+    this.appendChild(draggedPiece);
+  }
 
 // step 2
 // event handling always goes at the bottom => 
