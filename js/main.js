@@ -19,14 +19,28 @@ let theButtons = document.querySelectorAll("#buttonHolder img"),
 // functionality always goes in the middle -> how do we want
 // the app to behave?
 function changeBGImage() {
-	// the `` is a JavaScript template string. It tells the JS enging to evaluate the expression
-	// inside the braces - run that little bit of code. In this case it's just pulling the ID of the
-	// button we clicked on and putting it at the end of the image name (0, 1, 2, 3)
-	// and updating the background-image style of the puzzle board element.
+    puzzleBoard.style.backgroundImage = `url(images/backGround${this.id}.jpg)`;
+  
+    // reset the board by reparenting the puzzle pieces back to the original drag zone
+    puzzlePieces.forEach(piece => {
+      piece.parentNode.removeChild(piece);
+      puzzleBoard.appendChild(piece);
+    });
+  
+    // remove any dropped pieces from the drop zones
+    dropZones.forEach(zone => {
+      if (zone.children.length > 0) {
+        zone.removeChild(zone.children[0]);
+      }
+    });
+    puzzleBoard.style.gridTemplateColumns = `repeat(${Math.ceil(Math.sqrt(puzzlePieces.length))}, 1fr)`;
+    puzzlePieces.forEach(piece => {
+      piece.style.width = `${puzzleBoard.clientWidth / Math.ceil(Math.sqrt(puzzlePieces.length))}px`;
+      piece.style.cursor = 'grab';
+    });
+  }
 
-	// bug fix #2 should go here. it's at most 3 lines of JS code.
-	puzzleBoard.style.backgroundImage = `url(images/backGround${this.id}.jpg)`;
-}
+
 
 function handleStartDrag() { 
 	console.log('started dragging this piece:', this);
